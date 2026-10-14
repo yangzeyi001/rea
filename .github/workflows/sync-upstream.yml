@@ -1,0 +1,21 @@
+name: Sync upstream
+
+on:
+  schedule:
+    # 每天 UTC 0 点（北京时间早 8 点）自动同步
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # 也支持手动点击触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Sync fork with upstream
+        uses: repo-sync/github-sync@v2
+        with:
+          source_repo: "morluto/rea"
+          source_branch: "main"
+          destination_branch: "main"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
